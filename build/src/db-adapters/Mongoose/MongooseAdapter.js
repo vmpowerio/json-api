@@ -744,7 +744,7 @@ var MongooseAdapter = (function () {
   }, {
     key: "idIsValid",
     value: function idIsValid(id) {
-      return typeof id === "string" && /^[0-9a-fA-F]{24}$/.test(id);
+      return typeof id === "string";
     }
   }]);
 
