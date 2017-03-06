@@ -9,7 +9,7 @@ import {Maybe} from "./util/type-handling";
  * property is being retrieved.
  */
 const autoGetterProps = ["dbAdapter", "beforeSave", "beforeRender", "behaviors",
-  "labelMappers", "defaultIncludes", "info", "parentType"];
+  "labelMappers", "defaultIncludes", "info", "parentType", "beforeDelete"];
 
 /**
  * Global defaults for all resource descriptions, to be merged into the
