@@ -20,7 +20,8 @@ exports["default"] = function (requestContext, responseContext, registry) {
   var fields = undefined,
       sorts = undefined,
       includes = undefined,
-      filters = undefined;
+      filters = undefined,
+      limit = undefined;
 
   // Handle fields, sorts, includes and filters.
   if (!requestContext.aboutRelationship) {
@@ -28,13 +29,14 @@ exports["default"] = function (requestContext, responseContext, registry) {
     sorts = parseCommaSeparatedParam(requestContext.queryParams.sort);
     // just support a "simple" filtering strategy for now.
     filters = requestContext.queryParams.filter && requestContext.queryParams.filter.simple;
+    limit = parseInt(requestContext.queryParams.limit);
     includes = parseCommaSeparatedParam(requestContext.queryParams.include);
 
     if (!includes) {
       includes = registry.defaultIncludes(type);
     }
 
-    return adapter.find(type, requestContext.idOrIds, fields, sorts, filters, includes).then(function (resources) {
+    return adapter.find(type, requestContext.idOrIds, fields, sorts, filters, includes, limit).then(function (resources) {
       var _resources = _slicedToArray(resources, 2);
 
       responseContext.primary = _resources[0];
