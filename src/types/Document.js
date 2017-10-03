@@ -124,12 +124,14 @@ function resourceToJSON(resource, urlTemplates) {
       json.links.self = selfTemplate.expand(templateData);
     }
   }
-
+  
   if(!objectIsEmpty(resource.relationships)) {
     json.relationships = {};
-
+    
     for(let path in resource.relationships) {
-      let linkTemplateData = {"ownerType": json.type, "ownerId": json.id, "path": path};
+      let linkedType = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].type : null;
+      let linkedId = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].id : null;
+      let linkTemplateData = {"ownerType": json.type, "ownerId": json.id, "path": path, "type": linkedType, "id": linkedId};
       json.relationships[path] = relationshipToJSON(resource.relationships[path], urlTemplates, linkTemplateData);
     }
   }

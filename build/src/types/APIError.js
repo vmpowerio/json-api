@@ -84,7 +84,8 @@ var APIError = (function (_Error) {
     value: function fromError(err) {
       var fallbackTitle = "An unknown error occurred while trying to process this request.";
       var ErrorConstructor = this || APIError; // in case this isn't bound.
-
+      var log = console.error;
+      log(err.toString());
       if (err instanceof APIError) {
         return err;
       }

@@ -160,7 +160,9 @@ function resourceToJSON(resource, urlTemplates) {
     json.relationships = {};
 
     for (var path in resource.relationships) {
-      var linkTemplateData = { "ownerType": json.type, "ownerId": json.id, "path": path };
+      var linkedType = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].type : null;
+      var linkedId = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].id : null;
+      var linkTemplateData = { "ownerType": json.type, "ownerId": json.id, "path": path, "type": linkedType, "id": linkedId };
       json.relationships[path] = relationshipToJSON(resource.relationships[path], urlTemplates, linkTemplateData);
     }
   }
