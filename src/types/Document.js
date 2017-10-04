@@ -127,10 +127,19 @@ function resourceToJSON(resource, urlTemplates) {
   
   if(!objectIsEmpty(resource.relationships)) {
     json.relationships = {};
-    
+
     for(let path in resource.relationships) {
-      let linkedType = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].type : null;
-      let linkedId = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].id : null;
+      let linkedType;
+      let linkedId;
+
+      if (Array.isArray(resource.relationships[path].linkage.value)) {
+        linkedType = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].type : null;
+        linkedId = resource.relationships[path].linkage.value[0] ? resource.relationships[path].linkage.value[0].id : null;
+      } else if (resource.relationships[path].linkage.value) {
+        linkedType = resource.relationships[path].linkage.value ? resource.relationships[path].linkage.value.type : null;
+        linkedId = resource.relationships[path].linkage.value ? resource.relationships[path].linkage.value.id : null;
+      }
+
       let linkTemplateData = {"ownerType": json.type, "ownerId": json.id, "path": path, "type": linkedType, "id": linkedId};
       json.relationships[path] = relationshipToJSON(resource.relationships[path], urlTemplates, linkTemplateData);
     }
